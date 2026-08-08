@@ -1,65 +1,85 @@
 # crypto-price-mcp
 
-An [MCP](https://modelcontextprotocol.io) server that gives AI agents **live crypto prices**.
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![MCP](https://img.shields.io/badge/MCP-server-6E56CF)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Deps](https://img.shields.io/badge/core-zero%20dependencies-lightgrey)
 
-An LLM's knowledge is frozen at training time, so it can't answer "what's the price of BTC right now?".
-This gives an agent tools to fetch that live: current prices, the list of symbols, and recent candles.
-It returns data only. It never suggests a trade or where the price is headed.
+**Give your AI agent live crypto prices.** An [MCP](https://modelcontextprotocol.io) server that lets
+an agent look up the current price, the full symbol list, and recent price history for 200+ coins.
 
-## Tools it gives an agent
+An LLM's knowledge is frozen at training time, so it can't answer *"what's BTC trading at right now?"*.
+This closes that gap. It returns market data only. It never gives a trading signal or predicts direction.
 
-| Tool | What it returns |
-|---|---|
-| `get_price(symbol)` | Current price of one coin, e.g. `BTC` |
-| `get_prices(symbols)` | Current prices for several coins at once |
-| `list_symbols()` | Every symbol it can price (200+) |
-| `get_candles(symbol, interval, count)` | Recent OHLCV price history (1m … 1d) |
+## What your agent can do with it
 
-Data comes from the public [Hyperliquid](https://hyperliquid.xyz) API. The core fetching uses the
-Python standard library only.
+> **You:** What's Bitcoin trading at, and how has it moved over the last few hours?
+>
+> **Agent** *(calls `get_price("BTC")` and `get_candles("BTC", "1h", 6)`)*:
+> Bitcoin is at **$65,047**. Over the last 6 hours it's held between $65,020 and $65,132 on rising volume.
 
-## Use with an MCP client (e.g. Claude Desktop)
+The agent fetches real numbers instead of guessing from stale training data.
+
+## Quickstart
 
 ```bash
 pip install "crypto-price-mcp[mcp]"
 ```
 
-Add it to your MCP client's config, for example:
+Add it to your MCP client (e.g. Claude Desktop's config):
 
 ```json
 {
   "mcpServers": {
-    "crypto-prices": {
-      "command": "crypto-price-mcp"
-    }
+    "crypto-prices": { "command": "crypto-price-mcp" }
   }
 }
 ```
 
-Then your agent can answer "what's ETH trading at?" or "show me BTC's last 24 hours" by calling the
-tools, instead of guessing from stale training data.
+Restart your client. The agent now has four crypto tools.
 
-## Use from plain Python
+## The tools
+
+| Tool | Returns |
+|---|---|
+| `get_price("BTC")` | `{"symbol": "BTC", "price": 65047.5, "as_of": 1786204330859}` |
+| `get_prices(["BTC","ETH"])` | current price for each, missing ones flagged |
+| `list_symbols()` | every symbol it can price (200+) |
+| `get_candles("BTC","1h",100)` | recent OHLCV history (`1m` … `1d`) |
+
+Example candle:
+```json
+{"open_ms": 1786201200000, "open": 65104.0, "high": 65132.0,
+ "low": 65020.0, "close": 65047.0, "volume": 409.43, "trades": 7014}
+```
+
+## Also usable from plain Python
 
 ```python
 from crypto_price_mcp import prices
 
-prices.get_price("BTC")          # {'symbol': 'BTC', 'price': 64980.5, 'as_of': ...}
-prices.get_candles("ETH", "1h", 24)
-prices.list_symbols()
+prices.get_price("BTC")                # {'symbol': 'BTC', 'price': 65047.5, 'as_of': ...}
+prices.get_candles("ETH", "1h", 24)    # last 24 hourly candles
+prices.list_symbols()                  # ['AAVE', 'ADA', 'APE', ...]
 ```
+
+## How it works
+
+Prices come from the public [Hyperliquid](https://hyperliquid.xyz) info API. The core fetching module
+(`crypto_price_mcp/prices.py`) uses the **Python standard library only** (no dependencies), so it's
+small and easy to audit. The `mcp` extra is only needed to run the server.
 
 ## Tests
 
 ```bash
-python -m unittest discover -s tests     # network is mocked, runs offline
+python -m unittest discover -s tests     # network is mocked, runs fully offline
 ```
 
-## Note
+## Scope
 
-This is a market-data source for agents. It reports prices; it does not give trading signals, predict
-direction, or place orders.
+A market-data source for agents. It reports prices and history. It does **not** give trading signals,
+predict where the price is going, or place orders.
 
 ## License
 
-MIT.
+MIT
