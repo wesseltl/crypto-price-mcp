@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crypto-price-mcp"
+version = "0.1.0"
+description = "An MCP server that gives AI agents live crypto prices and candles. Data only, no trading advice."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Wessel ter Laak" }]
+keywords = ["mcp", "ai-agents", "crypto", "prices", "market-data", "llm", "model-context-protocol"]
+dependencies = []
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+
+[project.urls]
+Homepage = "https://github.com/wesseltl/crypto-price-mcp"
+
+[project.scripts]
+crypto-price-mcp = "crypto_price_mcp.server:main"
+
+[tool.setuptools]
+packages = ["crypto_price_mcp"]
