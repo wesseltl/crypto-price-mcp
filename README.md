@@ -1,3 +1,5 @@
+<!-- mcp-name: io.github.wesseltl/crypto-price-mcp -->
+
 # crypto-price-mcp
 
 ![PyPI](https://img.shields.io/pypi/v/hyperliquid-price-mcp)
