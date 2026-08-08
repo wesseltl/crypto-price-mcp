@@ -1,5 +1,6 @@
 # crypto-price-mcp
 
+![PyPI](https://img.shields.io/pypi/v/hyperliquid-price-mcp)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![MCP](https://img.shields.io/badge/MCP-server-6E56CF)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -23,7 +24,7 @@ The agent fetches real numbers instead of guessing from stale training data.
 ## Quickstart
 
 ```bash
-pip install "crypto-price-mcp[mcp]"
+pip install "hyperliquid-price-mcp[mcp]"
 ```
 
 Add it to your MCP client (e.g. Claude Desktop's config):
@@ -31,7 +32,7 @@ Add it to your MCP client (e.g. Claude Desktop's config):
 ```json
 {
   "mcpServers": {
-    "crypto-prices": { "command": "crypto-price-mcp" }
+    "crypto-prices": { "command": "hyperliquid-price-mcp" }
   }
 }
 ```
