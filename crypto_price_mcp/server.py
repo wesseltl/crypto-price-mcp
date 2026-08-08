@@ -13,12 +13,15 @@ from __future__ import annotations
 from crypto_price_mcp import prices
 
 try:
-    from mcp.server.fastmcp import FastMCP
-except ImportError as exc:  # pragma: no cover
-    raise SystemExit(
-        "The MCP server needs the 'mcp' package. Install it with:\n"
-        '    pip install "crypto-price-mcp[mcp]"'
-    ) from exc
+    from fastmcp import FastMCP            # standalone FastMCP (mcp SDK 2.x+)
+except ImportError:
+    try:
+        from mcp.server.fastmcp import FastMCP   # bundled in mcp SDK 1.x
+    except ImportError as exc:  # pragma: no cover
+        raise SystemExit(
+            "The MCP server needs FastMCP. Install it with:\n"
+            '    pip install "hyperliquid-price-mcp[mcp]"'
+        ) from exc
 
 mcp = FastMCP("crypto-prices")
 
