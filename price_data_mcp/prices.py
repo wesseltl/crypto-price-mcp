@@ -1,4 +1,4 @@
-"""prices.py — fetch live crypto prices and candles. Standard library only (urllib).
+"""prices.py — fetch live market prices and candles. Standard library only (urllib).
 
 Data comes from the public Hyperliquid info API. This module just fetches and returns it in a clean
 shape; it says nothing about whether to buy, sell, or where the price is headed. It's a data source,

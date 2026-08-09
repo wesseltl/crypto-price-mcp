@@ -4,24 +4,24 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hyperliquid-price-mcp"
-version = "0.1.2"
-description = "An MCP server that gives AI agents live crypto prices and candles. Data only, no trading advice."
+version = "0.1.3"
+description = "An MCP server that gives AI agents live market prices and candles. Data only, no trading advice."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Wessel ter Laak" }]
-keywords = ["mcp", "ai-agents", "crypto", "prices", "market-data", "llm", "model-context-protocol"]
+keywords = ["mcp", "ai-agents", "prices", "market-data", "llm", "model-context-protocol"]
 dependencies = []
 
 [project.optional-dependencies]
 mcp = ["fastmcp>=2.0"]
 
 [project.urls]
-Homepage = "https://github.com/wesseltl/crypto-price-mcp"
+Homepage = "https://github.com/wesseltl/price-data-mcp"
 
 [project.scripts]
-hyperliquid-price-mcp = "crypto_price_mcp.server:main"
-crypto-price-mcp = "crypto_price_mcp.server:main"
+hyperliquid-price-mcp = "price_data_mcp.server:main"
+price-data-mcp = "price_data_mcp.server:main"
 
 [tool.setuptools]
-packages = ["crypto_price_mcp"]
+packages = ["price_data_mcp"]

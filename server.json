@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.wesseltl/crypto-price-mcp",
-  "description": "Live crypto prices and candles for AI agents (200+ coins). Data only, no trading advice.",
-  "version": "0.1.2",
+  "name": "io.github.wesseltl/price-data-mcp",
+  "description": "Live market prices and candles for AI agents (200+ coins). Data only, no trading advice.",
+  "version": "0.1.3",
   "repository": {
-    "url": "https://github.com/wesseltl/crypto-price-mcp",
+    "url": "https://github.com/wesseltl/price-data-mcp",
     "source": "github"
   },
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "hyperliquid-price-mcp",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "transport": {
         "type": "stdio"
       }

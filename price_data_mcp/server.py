@@ -1,16 +1,16 @@
-"""server.py — expose live crypto prices as MCP tools that any AI agent can call.
+"""server.py — expose live market prices as MCP tools that any AI agent can call.
 
 An LLM's knowledge is frozen at training time, so it can't answer "what's the price of BTC right now?".
 This server gives an agent tools to fetch that live: current prices, the list of symbols, and recent
 candles. It returns data only; it never suggests a trade or a direction.
 
-Run:  python -m crypto_price_mcp.server        (needs:  pip install "crypto-price-mcp[mcp]")
+Run:  python -m price_data_mcp.server        (needs:  pip install "price-data-mcp[mcp]")
 
 Point your MCP client (Claude Desktop, or any MCP client) at that command.
 """
 from __future__ import annotations
 
-from crypto_price_mcp import prices
+from price_data_mcp import prices
 
 try:
     from fastmcp import FastMCP            # standalone FastMCP (mcp SDK 2.x+)
@@ -23,12 +23,12 @@ except ImportError:
             '    pip install "hyperliquid-price-mcp[mcp]"'
         ) from exc
 
-mcp = FastMCP("crypto-prices")
+mcp = FastMCP("market-prices")
 
 
 @mcp.tool()
 def get_price(symbol: str) -> dict:
-    """Get the current price of a crypto asset.
+    """Get the current price of a asset.
 
     Args:
         symbol: the coin ticker, e.g. "BTC", "ETH", "SOL".
@@ -39,7 +39,7 @@ def get_price(symbol: str) -> dict:
 
 @mcp.tool()
 def get_prices(symbols: list[str]) -> list[dict]:
-    """Get current prices for several crypto assets at once.
+    """Get current prices for several assets at once.
 
     Args:
         symbols: list of tickers, e.g. ["BTC", "ETH", "SOL"].
@@ -49,13 +49,13 @@ def get_prices(symbols: list[str]) -> list[dict]:
 
 @mcp.tool()
 def list_symbols() -> list[str]:
-    """List all crypto symbols this server can price."""
+    """List all symbols this server can price."""
     return prices.list_symbols()
 
 
 @mcp.tool()
 def get_candles(symbol: str, interval: str = "1h", count: int = 100) -> list[dict]:
-    """Get recent OHLCV candles (price history) for a crypto asset.
+    """Get recent OHLCV candles (price history) for a asset.
 
     Args:
         symbol: the coin ticker, e.g. "BTC".

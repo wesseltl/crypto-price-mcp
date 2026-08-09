@@ -1,6 +1,6 @@
-<!-- mcp-name: io.github.wesseltl/crypto-price-mcp -->
+<!-- mcp-name: io.github.wesseltl/price-data-mcp -->
 
-# crypto-price-mcp
+# price-data-mcp
 
 ![PyPI](https://img.shields.io/pypi/v/hyperliquid-price-mcp)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
@@ -8,7 +8,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Deps](https://img.shields.io/badge/core-zero%20dependencies-lightgrey)
 
-**Give your AI agent live crypto prices.** An [MCP](https://modelcontextprotocol.io) server that lets
+**Give your AI agent live market prices.** An [MCP](https://modelcontextprotocol.io) server that lets
 an agent look up the current price, the full symbol list, and recent price history for 200+ coins.
 
 An LLM's knowledge is frozen at training time, so it can't answer *"what's BTC trading at right now?"*.
@@ -34,12 +34,12 @@ Add it to your MCP client (e.g. Claude Desktop's config):
 ```json
 {
   "mcpServers": {
-    "crypto-prices": { "command": "hyperliquid-price-mcp" }
+    "market-prices": { "command": "hyperliquid-price-mcp" }
   }
 }
 ```
 
-Restart your client. The agent now has four crypto tools.
+Restart your client. The agent now has four tools.
 
 ## The tools
 
@@ -59,7 +59,7 @@ Example candle:
 ## Also usable from plain Python
 
 ```python
-from crypto_price_mcp import prices
+from price_data_mcp import prices
 
 prices.get_price("BTC")                # {'symbol': 'BTC', 'price': 65047.5, 'as_of': ...}
 prices.get_candles("ETH", "1h", 24)    # last 24 hourly candles
@@ -69,7 +69,7 @@ prices.list_symbols()                  # ['AAVE', 'ADA', 'APE', ...]
 ## How it works
 
 Prices come from the public [Hyperliquid](https://hyperliquid.xyz) info API. The core fetching module
-(`crypto_price_mcp/prices.py`) uses the **Python standard library only** (no dependencies), so it's
+(`price_data_mcp/prices.py`) uses the **Python standard library only** (no dependencies), so it's
 small and easy to audit. The `mcp` extra is only needed to run the server.
 
 ## Tests

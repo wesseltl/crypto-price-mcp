@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from crypto_price_mcp import prices
+from price_data_mcp import prices
 
 FAKE_MIDS = {"BTC": "65000.5", "ETH": "1920.0", "SOL": "74.25"}
 FAKE_META = {"universe": [{"name": "ETH"}, {"name": "BTC"}, {"name": "SOL"}]}
@@ -16,19 +16,19 @@ FAKE_CANDLES = [
 
 
 class TestPrices(unittest.TestCase):
-    @patch("crypto_price_mcp.prices._post", return_value=FAKE_MIDS)
+    @patch("price_data_mcp.prices._post", return_value=FAKE_MIDS)
     def test_get_price(self, _):
         r = prices.get_price("btc")
         self.assertEqual(r["symbol"], "BTC")
         self.assertEqual(r["price"], 65000.5)
         self.assertIn("as_of", r)
 
-    @patch("crypto_price_mcp.prices._post", return_value=FAKE_MIDS)
+    @patch("price_data_mcp.prices._post", return_value=FAKE_MIDS)
     def test_get_price_unknown_raises(self, _):
         with self.assertRaises(ValueError):
             prices.get_price("DOGECOINZ")
 
-    @patch("crypto_price_mcp.prices._post", return_value=FAKE_MIDS)
+    @patch("price_data_mcp.prices._post", return_value=FAKE_MIDS)
     def test_get_prices_marks_missing(self, _):
         out = prices.get_prices(["BTC", "NOPE"])
         by = {r["symbol"]: r for r in out}
@@ -36,11 +36,11 @@ class TestPrices(unittest.TestCase):
         self.assertFalse(by["NOPE"]["found"])
         self.assertIsNone(by["NOPE"]["price"])
 
-    @patch("crypto_price_mcp.prices._post", return_value=FAKE_META)
+    @patch("price_data_mcp.prices._post", return_value=FAKE_META)
     def test_list_symbols_sorted(self, _):
         self.assertEqual(prices.list_symbols(), ["BTC", "ETH", "SOL"])
 
-    @patch("crypto_price_mcp.prices._post", return_value=FAKE_CANDLES)
+    @patch("price_data_mcp.prices._post", return_value=FAKE_CANDLES)
     def test_get_candles(self, _):
         c = prices.get_candles("BTC", "1h", 2)
         self.assertEqual(len(c), 2)
